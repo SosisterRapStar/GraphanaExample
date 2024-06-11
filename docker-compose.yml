@@ -1,0 +1,27 @@
+
+services:
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+     - GF_SERVER_ROOT_URL=https://my_grafana
+     - GF_SECURITY_ADMIN_USER=admin
+     - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+     - '3000:3000'
+    volumes:
+     - ./data/:/var/lib/grafana
+
+  graphana_db:
+    image: postgres:15-alpine
+    restart: always
+    container_name: graphana_db
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+volumes:
+  grafana_storage: {}
